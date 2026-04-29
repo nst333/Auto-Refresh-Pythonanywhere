@@ -1,0 +1,16 @@
+name: Extend PythonAnywhere WebApp
+
+on:
+  schedule:
+    # 한국 시간 기준 매일 새벽에 실행 (UTC 18:00 = KST 03:00)
+    - cron: '0 18 * * *'
+  workflow_dispatch: # 수동 실행 버튼 활성화
+
+jobs:
+  extend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extend WebApp via API
+        run: |
+          curl -X POST "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USERNAME }}/webapps/${{ secrets.PA_DOMAIN }}/extend/" \
+            -H "Authorization: Token ${{ secrets.PA_TOKEN }}"
